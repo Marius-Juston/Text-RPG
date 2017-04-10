@@ -1,6 +1,8 @@
 package window;
 
 import game.Game;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,11 +14,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import java.util.LinkedList;
 
 public class Window extends Application {
 
     private static final TextArea dialogue = new TextArea();
     private static final TextField response = new TextField();
+    private static final Timeline timeline = new Timeline();
+    private static final LinkedList<String> pendingSpeech = new LinkedList<>();
+    static Duration duration = new Duration(0);
 
     public static void main(String[] args) {
         launch(args);
@@ -26,12 +34,12 @@ public class Window extends Application {
         appendText(text, 1);
     }
 
-
-    private static void appendText(String text, int seconds) {
+    private static void appendText(String text, double seconds) {
         //TODO Add delay when appending message to textArea
-
-        dialogue.appendText(text + '\n');
-        dialogue.setScrollTop(Double.MAX_VALUE);
+//        dialogue.appendText(text + '\n');
+//        dialogue.setScrollTop(Double.MAX_VALUE);
+//        duration.subtract(duration).add(Duration.seconds(seconds));
+        pendingSpeech.add(text);
     }
 
     public static void setPromptText(String prompt) {
@@ -99,6 +107,13 @@ public class Window extends Application {
 //                System.out.println(window.getWidth());
 //            }
 //        }, 0, 500);
+
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(3000), event -> {
+            if (pendingSpeech.size() > 0)
+                dialogue.appendText(pendingSpeech.pop() + '\n');
+        }));
+        timeline.play();
 
         Game.play();
 
