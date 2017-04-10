@@ -23,14 +23,15 @@ public class Window extends Application {
     }
 
     public static void appendText(String text) {
-        appendText(text, 2);
+        appendText(text, 1);
     }
 
 
-    private static void appendText(String text, int seconds){
+    private static void appendText(String text, int seconds) {
         //TODO Add delay when appending message to textArea
 
         dialogue.appendText(text + '\n');
+        dialogue.setScrollTop(Double.MAX_VALUE);
     }
 
     public static void setPromptText(String prompt) {
@@ -45,8 +46,7 @@ public class Window extends Application {
         return response.getText().matches(regex);
     }
 
-    public static void setOnResponseAction(EventHandler<ActionEvent> e)
-    {
+    public static void setOnResponseAction(EventHandler<ActionEvent> e) {
         response.setOnAction(e);
     }
 
@@ -56,6 +56,10 @@ public class Window extends Application {
 
     public static TextArea getDialogue() {
         return dialogue;
+    }
+
+    public static void separate(String intro) {
+        Window.appendText(String.format("%n[=============================================================================%-12s=============================================================================]%n", intro));
     }
 
     @Override
@@ -68,7 +72,7 @@ public class Window extends Application {
         vBox.setAlignment(Pos.CENTER);
 
         vBox.setPrefHeight(319);
-        vBox.setPrefWidth(573);
+        vBox.setPrefWidth(1394);
 
         vBox.setMinHeight(59);
 
@@ -88,6 +92,13 @@ public class Window extends Application {
         window.setTitle("Text RPG");
 
         window.show();
+
+//        new Timer().schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                System.out.println(window.getWidth());
+//            }
+//        }, 0, 500);
 
         Game.play();
 
