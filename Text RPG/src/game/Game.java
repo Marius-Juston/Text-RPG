@@ -28,6 +28,7 @@ public class Game {
                 Window.setOnResponseAction(null);
                 gameRunner[0] = new GameRunner();
                 GameRunner.intro();
+                GameRunner.classChoice();
             }
 
             GameRunner.play(gameRunner[0]);

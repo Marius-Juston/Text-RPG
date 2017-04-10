@@ -4,6 +4,9 @@ import window.Window;
 
 
 class GameRunner {
+    int round = 1;
+    int nextArea = 0;
+
     public static void play(GameRunner gameRunner) {
         gameRunner.next();
     }
@@ -21,9 +24,17 @@ class GameRunner {
         Window.appendText("with the heritage of an inferior creature.");
         Window.appendText("\nWell then it seems that the story can now begin...");
         Window.separate("END OF INTRO");
+
+        classChoice();
     }
 
     public static void classChoice() {
+        Window.appendText("");
+
+        Window.setOnResponseAction(event -> {
+            Window.setPromptText("Enter the class you wish to be");
+        });
+
         Window.separate("END OF CLASS CHOOSING");
     }
 
